@@ -9,7 +9,7 @@ lint:
     config-file: .yamllint
 platforms:
   - name: instance
-    image: centos:7
+    image: registry.access.redhat.com/ubi7/ubi:7.8
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /usr/sbin/init
@@ -33,7 +33,7 @@ scenario:
     - create
     - prepare
     - converge
-#    - idempotence
+  # - idempotence
     - destroy
 verifier:
   name: testinfra

@@ -1001,7 +1001,7 @@
     regexp: audit=.
     replace: audit=1
   when:
-  - argcheck.rc == 0
+  - argcheck is succeeded
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - grub2_audit_argument | bool
   - restrict_strategy | bool
@@ -1032,7 +1032,7 @@
     regexp: (GRUB_CMDLINE_LINUX=.*)"
     replace: \1 audit=1"
   when:
-  - argcheck.rc != 0
+  - argcheck is failed
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - grub2_audit_argument | bool
   - restrict_strategy | bool
@@ -1111,7 +1111,7 @@
     regexp: audit_backlog_limit=.
     replace: audit_backlog_limit=8192
   when:
-  - argcheck.rc == 0
+  - argcheck is succeeded
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - grub2_audit_backlog_limit_argument | bool
   - restrict_strategy | bool
@@ -1134,7 +1134,7 @@
     regexp: (GRUB_CMDLINE_LINUX=.*)"
     replace: \1 audit_backlog_limit=8192"
   when:
-  - argcheck.rc != 0
+  - argcheck is failed
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - grub2_audit_backlog_limit_argument | bool
   - restrict_strategy | bool
@@ -3209,6 +3209,32 @@
     state: present
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - ansible_distribution == 'RedHat' and ansible_distribution_major_version != "8"
+  - package_screen_installed | bool
+  - no_reboot_needed | bool
+  - medium_severity | bool
+  - enable_strategy | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - package_screen_installed
+  - medium_severity
+  - enable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27351-6
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.10
+  - DISA-STIG-RHEL-07-010090
+
+- name: Ensure tmux is installed
+  package:
+    name: tmux
+    state: present
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - ansible_distribution == 'RedHat' and ansible_distribution_major_version == "7"
   - package_screen_installed | bool
   - no_reboot_needed | bool
   - medium_severity | bool
@@ -3300,7 +3326,7 @@
     regexp: vsyscall=.
     replace: vsyscall=none
   when:
-  - argcheck.rc == 0
+  - argcheck is succeeded
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - restrict_strategy | bool
   - reboot_required | bool
@@ -3323,7 +3349,7 @@
     regexp: (GRUB_CMDLINE_LINUX=.*)"
     replace: \1 vsyscall=none"
   when:
-  - argcheck.rc != 0
+  - argcheck is failed
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - restrict_strategy | bool
   - reboot_required | bool
@@ -3461,7 +3487,7 @@
     regexp: slub_debug=.
     replace: slub_debug=P
   when:
-  - argcheck.rc == 0
+  - argcheck is succeeded
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - grub2_slub_debug_argument | bool
   - restrict_strategy | bool
@@ -3484,7 +3510,7 @@
     regexp: (GRUB_CMDLINE_LINUX=.*)"
     replace: \1 slub_debug=P"
   when:
-  - argcheck.rc != 0
+  - argcheck is failed
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - grub2_slub_debug_argument | bool
   - restrict_strategy | bool
@@ -3547,7 +3573,7 @@
     regexp: page_poison=.
     replace: page_poison=1
   when:
-  - argcheck.rc == 0
+  - argcheck is succeeded
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - restrict_strategy | bool
   - reboot_required | bool
@@ -3570,7 +3596,7 @@
     regexp: (GRUB_CMDLINE_LINUX=.*)"
     replace: \1 page_poison=1"
   when:
-  - argcheck.rc != 0
+  - argcheck is failed
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - restrict_strategy | bool
   - reboot_required | bool
