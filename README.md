@@ -23,7 +23,7 @@ To submit a fix or enhancement for an Ansible task that is failing or missing, s
 - Ansible v2.5+
 
 ## Role Variables
-To customize the role to your liking, check out the [list of variables](vars/main.yml).
+To customize the role to your liking, check out the [list of variables](vars/main.yml) and [defaults](defaults/main.yml).
 
 ## Dependencies
 N/A
