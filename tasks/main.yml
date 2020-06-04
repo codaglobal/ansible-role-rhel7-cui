@@ -786,7 +786,8 @@
 
 - name: Find All yum Repositories
   find:
-    paths: /etc/yum.repos.d/
+    paths:
+      - /etc/yum.repos.d/
     patterns: '*.repo'
     contains: ^\[.+]$
   register: yum_find
@@ -2265,7 +2266,7 @@
     new_type: auth
     new_control: required
     new_module_path: pam_faillock.so
-    module_arguments: preauth silent deny={{ var_accounts_passwords_pam_faillock_deny }}
+    module_arguments: preauth silent audit deny={{ var_accounts_passwords_pam_faillock_deny }}
     state: before
   loop:
   - system-auth
@@ -2298,7 +2299,7 @@
     type: auth
     control: required
     module_path: pam_faillock.so
-    module_arguments: preauth silent deny={{ var_accounts_passwords_pam_faillock_deny }}
+    module_arguments: preauth silent audit deny={{ var_accounts_passwords_pam_faillock_deny }}
     state: args_present
   loop:
   - system-auth
@@ -2439,7 +2440,7 @@
     new_type: auth
     new_control: required
     new_module_path: pam_faillock.so
-    module_arguments: preauth silent unlock_time={{ var_accounts_passwords_pam_faillock_unlock_time }}
+    module_arguments: preauth silent audit unlock_time={{ var_accounts_passwords_pam_faillock_unlock_time }}
     state: before
   loop:
   - system-auth
@@ -2472,7 +2473,7 @@
     type: auth
     control: required
     module_path: pam_faillock.so
-    module_arguments: preauth silent unlock_time={{ var_accounts_passwords_pam_faillock_unlock_time }}
+    module_arguments: preauth silent audit unlock_time={{ var_accounts_passwords_pam_faillock_unlock_time }}
     state: args_present
   loop:
   - system-auth
@@ -2668,7 +2669,7 @@
     new_type: auth
     new_control: required
     new_module_path: pam_faillock.so
-    module_arguments: preauth silent fail_interval={{ var_accounts_passwords_pam_faillock_fail_interval }}
+    module_arguments: preauth silent audit fail_interval={{ var_accounts_passwords_pam_faillock_fail_interval }}
     state: before
   loop:
   - system-auth
@@ -2698,7 +2699,7 @@
     type: auth
     control: required
     module_path: pam_faillock.so
-    module_arguments: preauth silent fail_interval={{ var_accounts_passwords_pam_faillock_fail_interval }}
+    module_arguments: preauth silent audit fail_interval={{ var_accounts_passwords_pam_faillock_fail_interval }}
     state: args_present
   loop:
   - system-auth
