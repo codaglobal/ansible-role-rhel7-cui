@@ -1,25 +1,6 @@
 ---
 # defaults file for rhel7_cui
 var_auditd_flush: incremental_async
-sysctl_net_ipv4_conf_default_rp_filter_value: '1'
-sysctl_net_ipv4_conf_default_log_martians_value: '1'
-sysctl_net_ipv4_conf_all_log_martians_value: '1'
-sysctl_net_ipv4_conf_all_accept_redirects_value: '0'
-sysctl_net_ipv4_icmp_ignore_bogus_error_responses_value: '1'
-sysctl_net_ipv4_conf_default_secure_redirects_value: '0'
-sysctl_net_ipv4_conf_all_accept_source_route_value: '0'
-sysctl_net_ipv4_conf_all_rp_filter_value: '1'
-sysctl_net_ipv4_conf_all_secure_redirects_value: '0'
-sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value: '1'
-sysctl_net_ipv4_tcp_syncookies_value: '1'
-sysctl_net_ipv4_conf_default_accept_source_route_value: '0'
-sysctl_net_ipv4_conf_default_accept_redirects_value: '0'
-sysctl_net_ipv6_conf_all_accept_source_route_value: '0'
-sysctl_net_ipv6_conf_all_accept_redirects_value: '0'
-sysctl_net_ipv6_conf_default_accept_source_route_value: '0'
-sysctl_net_ipv6_conf_all_accept_ra_value: '0'
-sysctl_net_ipv6_conf_default_accept_redirects_value: '0'
-sysctl_net_ipv6_conf_default_accept_ra_value: '0'
 var_selinux_state: enforcing
 var_selinux_policy_name: targeted
 var_accounts_password_minlen_login_defs: '15'
@@ -40,6 +21,48 @@ var_accounts_user_umask: '027'
 var_sshd_set_keepalive: '10h'
 sshd_approved_macs: hmac-sha2-512,hmac-sha2-256,hmac-sha1,hmac-sha1-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com
 sshd_idle_timeout_value: '600'
+
+# https://wiki.archlinux.org/index.php/sysctl#TCP/IP_stack_hardening
+sysctl_net_ipv4_conf_default_rp_filter_value: '1'
+sysctl_net_ipv4_conf_default_log_martians_value: '1'
+sysctl_net_ipv4_conf_all_log_martians_value: '1'
+sysctl_net_ipv4_conf_all_accept_redirects_value: '0'
+sysctl_net_ipv4_icmp_ignore_bogus_error_responses_value: '1'
+sysctl_net_ipv4_conf_default_secure_redirects_value: '0'
+sysctl_net_ipv4_conf_all_accept_source_route_value: '0'
+sysctl_net_ipv4_conf_all_rp_filter_value: '1'
+sysctl_net_ipv4_conf_all_secure_redirects_value: '0'
+sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value: '1'
+sysctl_net_ipv4_tcp_syncookies_value: '1'
+sysctl_net_ipv4_conf_default_accept_source_route_value: '0'
+sysctl_net_ipv4_conf_default_accept_redirects_value: '0'
+sysctl_net_ipv6_conf_all_accept_source_route_value: '0'
+sysctl_net_ipv6_conf_all_accept_redirects_value: '0'
+sysctl_net_ipv6_conf_default_accept_source_route_value: '0'
+sysctl_net_ipv6_conf_all_accept_ra_value: '0'
+sysctl_net_ipv6_conf_default_accept_redirects_value: '0'
+sysctl_net_ipv6_conf_default_accept_ra_value: '0'
+
+# toggle by strategy
+configure_strategy: true
+disable_strategy: true
+enable_strategy: true
+restrict_strategy: true
+unknown_strategy: true
+
+# toggle by high/medium/low
+high_complexity: true
+high_disruption: true
+high_severity: true
+medium_complexity: true
+medium_disruption: true
+medium_severity: true
+low_complexity: true
+low_disruption: true
+low_severity: true
+unknown_severity: true
+
+# toggle individual tasks
 accounts_max_concurrent_login_sessions: true
 accounts_password_minlen_login_defs: true
 accounts_password_pam_dcredit: true
@@ -58,37 +81,25 @@ accounts_umask_etc_bashrc: true
 accounts_umask_etc_csh_cshrc: true
 accounts_umask_etc_profile: true
 auditd_data_retention_flush: true
-configure_strategy: true
 disable_ctrlaltdel_burstaction: true
 disable_ctrlaltdel_reboot: true
 disable_host_auth: true
-disable_strategy: true
 disable_users_coredumps: true
-enable_strategy: true
 ensure_gpgcheck_globally_activated: true
 ensure_gpgcheck_local_packages: true
 ensure_gpgcheck_never_disabled: true
 ensure_redhat_gpgkey_installed: true
 grub2_audit_argument: true
 grub2_audit_backlog_limit_argument: true
-grub2_disable_interactive_boot: true
+grub2_disable_interactive_boot: false
 grub2_enable_fips_mode: true
-grub2_page_poison_argument: true
-grub2_slub_debug_argument: true
+grub2_page_poison_argument: false
+grub2_slub_debug_argument: false
 grub2_vsyscall_argument: true
-high_complexity: true
-high_disruption: true
-high_severity: true
 kernel_module_bluetooth_disabled: true
 kernel_module_cramfs_disabled: true
 kernel_module_dccp_disabled: true
 kernel_module_sctp_disabled: true
-low_complexity: true
-low_disruption: true
-low_severity: true
-medium_complexity: false
-medium_disruption: false
-medium_severity: true
 mount_option_dev_shm_nodev: true
 mount_option_dev_shm_noexec: true
 mount_option_dev_shm_nosuid: true
@@ -106,7 +117,6 @@ package_abrt_removed: true
 package_screen_installed: true
 reboot_required: true
 require_singleuser_auth: true
-restrict_strategy: true
 securetty_root_login_console_only: true
 selinux_policytype: true
 selinux_state: true
@@ -154,5 +164,3 @@ sysctl_net_ipv6_conf_all_accept_source_route: true
 sysctl_net_ipv6_conf_default_accept_ra: true
 sysctl_net_ipv6_conf_default_accept_redirects: true
 sysctl_net_ipv6_conf_default_accept_source_route: true
-unknown_severity: true
-unknown_strategy: true

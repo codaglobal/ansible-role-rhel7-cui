@@ -444,8 +444,8 @@
   - CJIS-5.10.1.2
   - DISA-STIG-RHEL-07-021350
 
-- name: update bootloader menu
-  command: /sbin/grubby --update-kernel=ALL --args="fips=1 boot=UUID={{ bootuuid.stdout }}"
+- name: update bootloader menu for fips
+  command: /sbin/grubby --update-kernel=ALL --args="fips=1"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - high_complexity | bool
@@ -982,7 +982,7 @@
   - PCI-DSS-Req-10.3
   - CJIS-5.4.1.1
 
-- name: update bootloader menu
+- name: update bootloader menu for audit
   command: /sbin/grubby --update-kernel=ALL --args="audit=1"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -1070,7 +1070,7 @@
   - reboot_required
   - CCE-82156-1
 
-- name: update bootloader menu
+- name: update bootloader menu for audit_backlog_limit
   command: /sbin/grubby --update-kernel=ALL --args="audit_backlog_limit=8192"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -3274,7 +3274,7 @@
   - reboot_required
   - CCE-82159-5
 
-- name: update bootloader menu
+- name: update bootloader menu for vsyscall
   command: /sbin/grubby --update-kernel=ALL --args="vsyscall=none"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -3429,7 +3429,7 @@
   - reboot_required
   - CCE-82157-9
 
-- name: update bootloader menu
+- name: update bootloader menu for slub_debug
   command: /sbin/grubby --update-kernel=ALL --args="slub_debug=P"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -3509,7 +3509,7 @@
   - reboot_required
   - CCE-82158-7
 
-- name: update bootloader menu
+- name: update bootloader menu for page_poison
   command: /sbin/grubby --update-kernel=ALL --args="page_poison=1"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
