@@ -49,9 +49,8 @@ ansible-playbook -i 'localhost' -c local playbook.yml
 
 #### Using the Local Source
 ```
+mkdir roles
 git clone git@github.com:mkorejo/ansible-role-rhel7-cui.git -d roles/
-mkdir ansible-test
-cd ansible-test
 
 cat << EOF > ansible.cfg
 [defaults]
