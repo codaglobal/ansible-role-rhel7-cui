@@ -64,7 +64,7 @@ cat << EOF > playbook.yaml
     - { role: ansible-role-rhel7-cui }
 EOF
 
-cat << inventory >
+cat << EOF > inventory
 <aws-rhel-host>.compute-1.amazonaws.com ansible_user=ec2-user
 EOF
 
