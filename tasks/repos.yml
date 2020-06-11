@@ -8,10 +8,15 @@
   when:
   - ansible_distribution == "RedHat"
 
-- name: Enable Extra Packages for Enterprise Linux
+- name: Enable Extras and Optional RPMs from RHEL
   command: subscription-manager repos --enable rhel-7-server-extras-rpms --enable rhel-7-server-optional-rpms
   when:
   - ansible_distribution == "RedHat"
+
+- name: Enable EPEL
+  yum:
+    name: '{{ epel_repo_link }}'
+    state: present
 
 - name: Check existence of yum on Fedora
   stat:
