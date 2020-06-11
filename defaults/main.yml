@@ -4,6 +4,7 @@ default_locale: 'en_US.UTF-8'
 default_timezone: 'America/New_York'
 epel_repo_link: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 install_package_list: [
+  'ansible',
   'clamav',
   'container-selinux',
   'sssd',
