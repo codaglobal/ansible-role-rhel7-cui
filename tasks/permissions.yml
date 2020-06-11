@@ -1,0 +1,866 @@
+---
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/home'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_home_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81153-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+  - DISA-STIG-RHEL-07-021000
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_home_nosuid | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_home_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81153-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+  - DISA-STIG-RHEL-07-021000
+
+- name: Ensure permission nosuid are set on /home
+  mount:
+    path: /home
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nosuid'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_home_nosuid | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_home_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81153-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+  - DISA-STIG-RHEL-07-021000
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/var/tmp'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_var_tmp_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81052-3
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - mount_option_var_tmp_nodev | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_var_tmp_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81052-3
+
+- name: Ensure permission nodev are set on /var/tmp
+  mount:
+    path: /var/tmp
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nodev'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - mount_option_var_tmp_nodev | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_var_tmp_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81052-3
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/dev/shm'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_dev_shm_nodev
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80152-2
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - medium_severity | bool
+  - mount_option_dev_shm_nodev | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_dev_shm_nodev
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80152-2
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: Ensure permission nodev are set on /dev/shm
+  mount:
+    path: /dev/shm
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nodev'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - medium_severity | bool
+  - mount_option_dev_shm_nodev | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_dev_shm_nodev
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80152-2
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/tmp'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_tmp_noexec
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80150-6
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_tmp_noexec | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_tmp_noexec
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80150-6
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: Ensure permission noexec are set on /tmp
+  mount:
+    path: /tmp
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},noexec'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_tmp_noexec | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_tmp_noexec
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80150-6
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/tmp'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_tmp_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80151-4
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_tmp_nosuid | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - high_disruption | bool
+  - low_complexity | bool
+  tags:
+  - mount_option_tmp_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80151-4
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: Ensure permission nosuid are set on /tmp
+  mount:
+    path: /tmp
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nosuid'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_tmp_nosuid | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - high_disruption | bool
+  - low_complexity | bool
+  tags:
+  - mount_option_tmp_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80151-4
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/var/tmp'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_var_tmp_noexec
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-82150-4
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - mount_option_var_tmp_noexec | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_var_tmp_noexec
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-82150-4
+
+- name: Ensure permission noexec are set on /var/tmp
+  mount:
+    path: /var/tmp
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},noexec'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - mount_option_var_tmp_noexec | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_var_tmp_noexec
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-82150-4
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/var/tmp'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_var_tmp_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-82153-8
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - mount_option_var_tmp_nosuid | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_var_tmp_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-82153-8
+
+- name: Ensure permission nosuid are set on /var/tmp
+  mount:
+    path: /var/tmp
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nosuid'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - mount_option_var_tmp_nosuid | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_var_tmp_nosuid
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-82153-8
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/dev/shm'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_dev_shm_nosuid
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80154-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - mount_option_dev_shm_nosuid | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - medium_severity | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_dev_shm_nosuid
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80154-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: Ensure permission nosuid are set on /dev/shm
+  mount:
+    path: /dev/shm
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nosuid'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - mount_option_dev_shm_nosuid | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - medium_severity | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_dev_shm_nosuid
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80154-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/dev/shm'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_dev_shm_noexec
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80153-0
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - mount_option_dev_shm_noexec | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - medium_severity | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_dev_shm_noexec
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80153-0
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: Ensure permission noexec are set on /dev/shm
+  mount:
+    path: /dev/shm
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},noexec'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - mount_option_dev_shm_noexec | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - medium_severity | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_dev_shm_noexec
+  - medium_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80153-0
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/home'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_home_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81047-3
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - mount_option_home_nodev | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_home_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81047-3
+
+- name: Ensure permission nodev are set on /home
+  mount:
+    path: /home
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nodev'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - mount_option_home_nodev | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_home_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-81047-3
+
+- name: get back mount information associated to mountpoint
+  command: findmnt --fstab '/tmp'
+  register: device_name
+  failed_when: device_name.rc > 1
+  changed_when: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - mount_option_tmp_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80149-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: create mount_info dictionary variable
+  set_fact:
+    mount_info: '{{ mount_info|default({})|combine({item.0: item.1}) }}'
+  with_together:
+  - '{{ device_name.stdout_lines[0].split() | list | lower }}'
+  - '{{ device_name.stdout_lines[1].split() | list }}'
+  when:
+  - device_name.stdout is defined and device_name.stdout_lines is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_tmp_nodev | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_tmp_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80149-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7
+
+- name: Ensure permission nodev are set on /tmp
+  mount:
+    path: /tmp
+    src: '{{ mount_info.source }}'
+    opts: '{{ mount_info.options }},nodev'
+    state: mounted
+    fstype: '{{ mount_info.fstype }}'
+  when:
+  - device_name.stdout is defined
+  - (device_name.stdout | length > 0)
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - mount_option_tmp_nodev | bool
+  - no_reboot_needed | bool
+  - configure_strategy | bool
+  - low_complexity | bool
+  - high_disruption | bool
+  tags:
+  - mount_option_tmp_nodev
+  - unknown_severity
+  - configure_strategy
+  - low_complexity
+  - high_disruption
+  - no_reboot_needed
+  - CCE-80149-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-MP-7

@@ -39,12 +39,12 @@ Run `ansible-galaxy install RedHatOfficial.rhel7_cui` to download and install th
 
 Next, check the playbook using (on the localhost) the following example:
 ```
-ansible-playbook -i "localhost," -c local --check playbook.yml
+ansible-playbook -i 'localhost' -c local --check playbook.yml
 ```
 
 To deploy it (this may change configuration of your local machine):
 ```
-ansible-playbook -i "localhost," -c local playbook.yml
+ansible-playbook -i 'localhost' -c local playbook.yml
 ```
 
 #### Using the Local Source

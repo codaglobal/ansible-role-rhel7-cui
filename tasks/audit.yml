@@ -1,0 +1,262 @@
+---
+- name: Enable service auditd | AC.3.018
+  block:
+  - name: Gather the package facts
+    package_facts:
+      manager: auto
+  - name: Enable service auditd
+    service:
+      name: auditd
+      enabled: 'yes'
+      state: started
+    when:
+    - '"audit" in ansible_facts.packages'
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - high_severity | bool
+  - enable_strategy | bool
+  - service_auditd_enabled | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_auditd_enabled
+  - high_severity
+  - enable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27407-6
+  - NIST-800-53-AC-2(g)
+  - NIST-800-53-AU-3
+  - NIST-800-53-AU-10
+  - NIST-800-53-AU-2(d)
+  - NIST-800-53-AU-12(c)
+  - NIST-800-53-AU-14(1)
+  - NIST-800-53-AC-6(9)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.3.1
+  - NIST-800-171-3.3.2
+  - NIST-800-171-3.3.6
+  - PCI-DSS-Req-10.1
+  - CJIS-5.4.1.1
+  - DISA-STIG-RHEL-07-030000
+
+- name: check audit argument exists
+  command: grep 'GRUB_CMDLINE_LINUX.*audit=' /etc/default/grub
+  failed_when: false
+  register: argcheck
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - grub2_audit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-27212-0
+  - NIST-800-53-AC-17(1)
+  - NIST-800-53-AU-14(1)
+  - NIST-800-53-AU-10
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-IR-5(1)
+  - NIST-800-171-3.3.1
+  - PCI-DSS-Req-10.3
+  - CJIS-5.4.1.1
+
+- name: replace existing audit argument
+  replace:
+    path: /etc/default/grub
+    regexp: audit=.
+    replace: audit=1
+  when:
+  - argcheck is succeeded
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_audit_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_audit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-27212-0
+  - NIST-800-53-AC-17(1)
+  - NIST-800-53-AU-14(1)
+  - NIST-800-53-AU-10
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-IR-5(1)
+  - NIST-800-171-3.3.1
+  - PCI-DSS-Req-10.3
+  - CJIS-5.4.1.1
+
+- name: add audit argument
+  replace:
+    path: /etc/default/grub
+    regexp: (GRUB_CMDLINE_LINUX=.*)"
+    replace: \1 audit=1"
+  when:
+  - argcheck is failed
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_audit_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_audit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-27212-0
+  - NIST-800-53-AC-17(1)
+  - NIST-800-53-AU-14(1)
+  - NIST-800-53-AU-10
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-IR-5(1)
+  - NIST-800-171-3.3.1
+  - PCI-DSS-Req-10.3
+  - CJIS-5.4.1.1
+
+- name: update bootloader menu for audit
+  command: /sbin/grubby --update-kernel=ALL --args="audit=1"
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_audit_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_audit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-27212-0
+  - NIST-800-53-AC-17(1)
+  - NIST-800-53-AU-14(1)
+  - NIST-800-53-AU-10
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-IR-5(1)
+  - NIST-800-171-3.3.1
+  - PCI-DSS-Req-10.3
+  - CJIS-5.4.1.1
+
+- name: check audit_backlog_limit argument exists
+  command: grep 'GRUB_CMDLINE_LINUX.*audit_backlog_limit=' /etc/default/grub
+  failed_when: false
+  register: argcheck
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - grub2_audit_backlog_limit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82156-1
+
+- name: replace existing audit_backlog_limit argument
+  replace:
+    path: /etc/default/grub
+    regexp: audit_backlog_limit=.
+    replace: audit_backlog_limit=8192
+  when:
+  - argcheck is succeeded
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_audit_backlog_limit_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_audit_backlog_limit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82156-1
+
+- name: add audit_backlog_limit argument
+  replace:
+    path: /etc/default/grub
+    regexp: (GRUB_CMDLINE_LINUX=.*)"
+    replace: \1 audit_backlog_limit=8192"
+  when:
+  - argcheck is failed
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_audit_backlog_limit_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_audit_backlog_limit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82156-1
+
+- name: update bootloader menu for audit_backlog_limit
+  command: /sbin/grubby --update-kernel=ALL --args="audit_backlog_limit=8192"
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_audit_backlog_limit_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_audit_backlog_limit_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82156-1
+
+- name: Configure auditd Flush Priority
+  lineinfile:
+    dest: /etc/audit/auditd.conf
+    regexp: ^\s*flush\s*=\s*.*$
+    line: flush = {{ var_auditd_flush }}
+    state: present
+    create: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - auditd_data_retention_flush | bool
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - auditd_data_retention_flush
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27331-8
+  - NIST-800-53-AU-11
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.3.1

@@ -1,0 +1,708 @@
+---
+- name: Disable Ctrl-Alt-Del Burst Action
+  lineinfile:
+    dest: /etc/systemd/system.conf
+    state: present
+    regexp: ^CtrlAltDelBurstAction
+    line: CtrlAltDelBurstAction=none
+    create: true
+  tags:
+  - disable_ctrlaltdel_burstaction
+  - high_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80449-2
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.4.5
+  when:
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - disable_ctrlaltdel_burstaction | bool
+  - high_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+
+- name: Disable Ctrl-Alt-Del Reboot Activation
+  systemd:
+    name: ctrl-alt-del.target
+    masked: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - high_severity | bool
+  - disable_ctrlaltdel_reboot | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - disable_ctrlaltdel_reboot
+  - high_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27511-5
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6(1)
+  - NIST-800-171-3.4.5
+  - DISA-STIG-RHEL-07-020230
+
+- name: Ensure kernel module 'sctp' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/sctp.conf
+    regexp: sctp
+    line: install sctp /bin/true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - kernel_module_sctp_disabled | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - kernel_module_sctp_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-82044-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.4.6
+  - CJIS-5.10.1
+
+- name: Ensure kernel module 'dccp' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/dccp.conf
+    regexp: dccp
+    line: install dccp /bin/true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - kernel_module_dccp_disabled | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - kernel_module_dccp_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-82024-1
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.4.6
+  - CJIS-5.10.1
+  - DISA-STIG-RHEL-07-020101
+
+- name: Ensure kernel module 'bluetooth' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/bluetooth.conf
+    regexp: bluetooth
+    line: install bluetooth /bin/true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - kernel_module_bluetooth_disabled | bool
+  - reboot_required | bool
+  - disable_strategy | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - kernel_module_bluetooth_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-27327-6
+  - NIST-800-53-AC-18(a)
+  - NIST-800-53-AC-18(3)
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-MP-7
+  - NIST-800-171-3.1.16
+  - CJIS-5.13.1.3
+
+- name: Ensure kernel module 'usb-storage' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/usb-storage.conf
+    regexp: usb-storage
+    line: install usb-storage /bin/true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - reboot_required | bool
+  - low_complexity | bool
+  tags:
+  - kernel_module_usb-storage_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-27277-3
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-MP-7
+  - NIST-800-171-3.1.21
+  - DISA-STIG-RHEL-07-020100
+
+- name: Ensure kernel module 'cramfs' is disabled
+  lineinfile:
+    create: true
+    dest: /etc/modprobe.d/cramfs.conf
+    regexp: cramfs
+    line: install cramfs /bin/true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - low_severity | bool
+  - medium_disruption | bool
+  - kernel_module_cramfs_disabled | bool
+  - low_complexity | bool
+  tags:
+  - kernel_module_cramfs_disabled
+  - low_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80137-3
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.4.6
+
+- name: Ensure sysctl fs.protected_hardlinks is set to 1
+  sysctl:
+    name: fs.protected_hardlinks
+    value: '1'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_fs_protected_hardlinks | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_fs_protected_hardlinks
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-81026-7
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6(1)
+
+- name: Ensure sysctl fs.protected_symlinks is set to 1
+  sysctl:
+    name: fs.protected_symlinks
+    value: '1'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - sysctl_fs_protected_symlinks | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_fs_protected_symlinks
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-81029-1
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-6(1)
+
+- name: Ensure sysctl kernel.dmesg_restrict is set to 1
+  sysctl:
+    name: kernel.dmesg_restrict
+    value: '1'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - sysctl_kernel_dmesg_restrict | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_kernel_dmesg_restrict
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-27050-4
+  - NIST-800-53-SI-11(a)
+  - NIST-800-53-SI-11(b)
+  - NIST-800-171-3.1.5
+
+- name: Ensure sysctl kernel.kexec_load_disabled is set to 1
+  sysctl:
+    name: kernel.kexec_load_disabled
+    value: '1'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - sysctl_kernel_kexec_load_disabled | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_kernel_kexec_load_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-81056-4
+
+- name: Ensure sysctl kernel.kptr_restrict is set to 1
+  sysctl:
+    name: kernel.kptr_restrict
+    value: '1'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - sysctl_kernel_kptr_restrict | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_kernel_kptr_restrict
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80659-6
+  - NIST-800-53-SC-30
+  - NIST-800-53-SC-30(2)
+  - NIST-800-53-SC-30(5)
+  - NIST-800-53-CM-6(a)
+
+- name: Ensure sysctl kernel.yama.ptrace_scope is set to 1
+  sysctl:
+    name: kernel.yama.ptrace_scope
+    value: '1'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - sysctl_kernel_yama_ptrace_scope | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_kernel_yama_ptrace_scope
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-81058-0
+
+- name: Ensure abrt is removed
+  package:
+    name: abrt
+    state: absent
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - package_abrt_removed | bool
+  - medium_severity | bool
+  - no_reboot_needed | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - package_abrt_removed
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-81040-8
+
+- name: Remove unwanted packages
+  package:
+    name: '{{ item }}'
+    state: absent
+  loop: '{{ remove_package_list }}'
+
+- name: Disable core dumps with limits
+  lineinfile:
+    dest: /etc/security/limits.conf
+    regexp: ^[^#].*core
+    line: '*        hard       core      0'
+    create: true
+  tags:
+  - disable_users_coredumps
+  - unknown_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80169-6
+  when:
+  - unknown_severity | bool
+  - no_reboot_needed | bool
+  - disable_users_coredumps | bool
+  - restrict_strategy | bool
+  - low_disruption | bool
+  - low_complexity | bool
+
+- name: Disable service autofs
+  block:
+  - name: Gather the service facts
+    service_facts: null
+  - name: Disable service autofs
+    systemd:
+      name: autofs.service
+      enabled: 'no'
+      state: stopped
+      masked: 'yes'
+    when: '"autofs.service" in ansible_facts.services'
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - service_autofs_disabled | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_autofs_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27498-5
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-MP-7
+  - NIST-800-171-3.4.6
+  - DISA-STIG-RHEL-07-020110
+
+- name: Unit Socket Exists - autofs.socket
+  command: systemctl list-unit-files autofs.socket
+  args:
+    warn: false
+  register: socket_file_exists
+  changed_when: false
+  ignore_errors: true
+  check_mode: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - service_autofs_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27498-5
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-MP-7
+  - NIST-800-171-3.4.6
+  - DISA-STIG-RHEL-07-020110
+
+- name: Disable socket autofs
+  systemd:
+    name: autofs.socket
+    enabled: 'no'
+    state: stopped
+    masked: 'yes'
+  when:
+  - '"autofs.socket" in socket_file_exists.stdout_lines[1]'
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - service_autofs_disabled | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_autofs_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27498-5
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-MP-7
+  - NIST-800-171-3.4.6
+  - DISA-STIG-RHEL-07-020110
+
+- name: Disable service rpcbind
+  block:
+  - name: Gather the service facts
+    service_facts: null
+  - name: Disable service rpcbind
+    systemd:
+      name: rpcbind.service
+      enabled: 'no'
+      state: stopped
+      masked: 'yes'
+    when: '"rpcbind.service" in ansible_facts.services'
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - service_rpcbind_disabled | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_rpcbind_disabled
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80230-6
+
+- name: Unit Socket Exists - rpcbind.socket
+  command: systemctl list-unit-files rpcbind.socket
+  args:
+    warn: false
+  register: socket_file_exists
+  changed_when: false
+  ignore_errors: true
+  check_mode: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - service_rpcbind_disabled
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80230-6
+
+- name: Disable socket rpcbind
+  systemd:
+    name: rpcbind.socket
+    enabled: 'no'
+    state: stopped
+    masked: 'yes'
+  when:
+  - '"rpcbind.socket" in socket_file_exists.stdout_lines[1]'
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - service_rpcbind_disabled | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_rpcbind_disabled
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80230-6
+
+- name: Disable service debug-shell
+  block:
+  - name: Gather the service facts
+    service_facts: null
+  - name: Disable service debug-shell
+    systemd:
+      name: debug-shell.service
+      enabled: 'no'
+      state: stopped
+      masked: 'yes'
+    when: '"debug-shell.service" in ansible_facts.services'
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_debug-shell_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80206-6
+  - NIST-800-171-3.4.5
+
+- name: Unit Socket Exists - debug-shell.socket
+  command: systemctl list-unit-files debug-shell.socket
+  args:
+    warn: false
+  register: socket_file_exists
+  changed_when: false
+  ignore_errors: true
+  check_mode: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - service_debug-shell_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80206-6
+  - NIST-800-171-3.4.5
+
+- name: Disable socket debug-shell
+  systemd:
+    name: debug-shell.socket
+    enabled: 'no'
+    state: stopped
+    masked: 'yes'
+  when:
+  - '"debug-shell.socket" in socket_file_exists.stdout_lines[1]'
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_debug-shell_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80206-6
+  - NIST-800-171-3.4.5
+
+- name: Disable service kdump
+  block:
+  - name: Gather the service facts
+    service_facts: null
+  - name: Disable service kdump
+    systemd:
+      name: kdump.service
+      enabled: 'no'
+      state: stopped
+      masked: 'yes'
+    when: '"kdump.service" in ansible_facts.services'
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - service_kdump_disabled | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_kdump_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80258-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - DISA-STIG-RHEL-07-021300
+
+- name: Unit Socket Exists - kdump.socket
+  command: systemctl list-unit-files kdump.socket
+  args:
+    warn: false
+  register: socket_file_exists
+  changed_when: false
+  ignore_errors: true
+  check_mode: false
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - service_kdump_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80258-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - DISA-STIG-RHEL-07-021300
+
+- name: Disable socket kdump
+  systemd:
+    name: kdump.socket
+    enabled: 'no'
+    state: stopped
+    masked: 'yes'
+  when:
+  - '"kdump.socket" in socket_file_exists.stdout_lines[1]'
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - no_reboot_needed | bool
+  - service_kdump_disabled | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - service_kdump_disabled
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80258-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - DISA-STIG-RHEL-07-021300

@@ -1,0 +1,7 @@
+---
+- name: Set default locale
+  command: localectl set-locale LANG='{{ default_locale }}'
+
+- name: Set default timezone
+  timezone:
+    name: '{{ default_timezone }}'

@@ -1,0 +1,56 @@
+---
+- name: Install additional packages
+  package:
+    name: '{{ item }}'
+    state: present
+  loop: '{{ install_package_list }}'
+
+- name: Ensure screen is installed (RHEL 8)
+  package:
+    name: screen
+    state: present
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - ansible_distribution == 'RedHat' and ansible_distribution_major_version == "8"
+  - package_screen_installed | bool
+  - no_reboot_needed | bool
+  - medium_severity | bool
+  - enable_strategy | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - package_screen_installed
+  - medium_severity
+  - enable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27351-6
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.10
+  - DISA-STIG-RHEL-07-010090
+
+- name: Ensure tmux is installed (RHEL 7)
+  package:
+    name: tmux
+    state: present
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - ansible_distribution == 'RedHat' and ansible_distribution_major_version == "7"
+  - package_screen_installed | bool
+  - no_reboot_needed | bool
+  - medium_severity | bool
+  - enable_strategy | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - package_screen_installed
+  - medium_severity
+  - enable_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27351-6
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.10
+  - DISA-STIG-RHEL-07-010090

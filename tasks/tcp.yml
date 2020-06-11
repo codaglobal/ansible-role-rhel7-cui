@@ -1,0 +1,624 @@
+---
+- name: Ensure sysctl net.ipv4.conf.default.rp_filter is set
+  sysctl:
+    name: net.ipv4.conf.default.rp_filter
+    value: '{{ sysctl_net_ipv4_conf_default_rp_filter_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sysctl_net_ipv4_conf_default_rp_filter | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_default_rp_filter
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80168-8
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.conf.default.log_martians is set
+  sysctl:
+    name: net.ipv4.conf.default.log_martians
+    value: '{{ sysctl_net_ipv4_conf_default_log_martians_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - sysctl_net_ipv4_conf_default_log_martians | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_default_log_martians
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80161-3
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5(3)(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.conf.all.log_martians is set
+  sysctl:
+    name: net.ipv4.conf.all.log_martians
+    value: '{{ sysctl_net_ipv4_conf_all_log_martians_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_net_ipv4_conf_all_log_martians | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_all_log_martians
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80160-5
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5(3)(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.conf.all.accept_redirects is set
+  sysctl:
+    name: net.ipv4.conf.all.accept_redirects
+    value: '{{ sysctl_net_ipv4_conf_all_accept_redirects_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_net_ipv4_conf_all_accept_redirects | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_all_accept_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80158-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+  - DISA-STIG-RHEL-07-040641
+
+- name: Ensure sysctl net.ipv4.icmp_ignore_bogus_error_responses is set
+  sysctl:
+    name: net.ipv4.icmp_ignore_bogus_error_responses
+    value: '{{ sysctl_net_ipv4_icmp_ignore_bogus_error_responses_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_disruption | bool
+  - sysctl_net_ipv4_icmp_ignore_bogus_error_responses | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_icmp_ignore_bogus_error_responses
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80166-2
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.conf.default.secure_redirects is set
+  sysctl:
+    name: net.ipv4.conf.default.secure_redirects
+    value: '{{ sysctl_net_ipv4_conf_default_secure_redirects_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - sysctl_net_ipv4_conf_default_secure_redirects | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_default_secure_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80164-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.conf.all.accept_source_route is set
+  sysctl:
+    name: net.ipv4.conf.all.accept_source_route
+    value: '{{ sysctl_net_ipv4_conf_all_accept_source_route_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - sysctl_net_ipv4_conf_all_accept_source_route | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_all_accept_source_route
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-27434-0
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - DISA-STIG-RHEL-07-040610
+
+- name: Ensure sysctl net.ipv4.conf.all.rp_filter is set
+  sysctl:
+    name: net.ipv4.conf.all.rp_filter
+    value: '{{ sysctl_net_ipv4_conf_all_rp_filter_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - sysctl_net_ipv4_conf_all_rp_filter | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_all_rp_filter
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80167-0
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.conf.all.secure_redirects is set
+  sysctl:
+    name: net.ipv4.conf.all.secure_redirects
+    value: '{{ sysctl_net_ipv4_conf_all_secure_redirects_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sysctl_net_ipv4_conf_all_secure_redirects | bool
+  - reboot_required | bool
+  - disable_strategy | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_all_secure_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80159-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv4.icmp_echo_ignore_broadcasts is set
+  sysctl:
+    name: net.ipv4.icmp_echo_ignore_broadcasts
+    value: '{{ sysctl_net_ipv4_icmp_echo_ignore_broadcasts_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - sysctl_net_ipv4_icmp_echo_ignore_broadcasts | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_icmp_echo_ignore_broadcasts
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80165-4
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+  - DISA-STIG-RHEL-07-040630
+
+- name: Ensure sysctl net.ipv4.tcp_syncookies is set
+  sysctl:
+    name: net.ipv4.tcp_syncookies
+    value: '{{ sysctl_net_ipv4_tcp_syncookies_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - sysctl_net_ipv4_tcp_syncookies | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_tcp_syncookies
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-27495-1
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5(1)
+  - NIST-800-53-SC-5(2)
+  - NIST-800-53-SC-5(3)(a)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+
+- name: Ensure sysctl net.ipv4.conf.default.accept_source_route is set
+  sysctl:
+    name: net.ipv4.conf.default.accept_source_route
+    value: '{{ sysctl_net_ipv4_conf_default_accept_source_route_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sysctl_net_ipv4_conf_default_accept_source_route | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_default_accept_source_route
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80162-1
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+  - DISA-STIG-RHEL-07-040620
+
+- name: Ensure sysctl net.ipv4.conf.default.accept_redirects is set
+  sysctl:
+    name: net.ipv4.conf.default.accept_redirects
+    value: '{{ sysctl_net_ipv4_conf_default_accept_redirects_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sysctl_net_ipv4_conf_default_accept_redirects | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_default_accept_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80163-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+  - DISA-STIG-RHEL-07-040640
+
+- name: Ensure sysctl net.ipv4.conf.default.send_redirects is set to 0
+  sysctl:
+    name: net.ipv4.conf.default.send_redirects
+    value: '0'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - sysctl_net_ipv4_conf_default_send_redirects | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_default_send_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80999-6
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+  - DISA-STIG-RHEL-07-040650
+
+- name: Ensure sysctl net.ipv4.conf.all.send_redirects is set to 0
+  sysctl:
+    name: net.ipv4.conf.all.send_redirects
+    value: '0'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - sysctl_net_ipv4_conf_all_send_redirects | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_conf_all_send_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80156-3
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - CJIS-5.10.1.1
+  - DISA-STIG-RHEL-07-040660
+
+- name: Ensure sysctl net.ipv4.ip_forward is set to 0
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '0'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_net_ipv4_ip_forward | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv4_ip_forward
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80157-1
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-SC-5CM-6(a)
+  - NIST-800-53-SC-7(a)
+  - NIST-800-171-3.1.20
+  - DISA-STIG-RHEL-07-040740
+
+- name: Ensure sysctl net.ipv6.conf.all.accept_source_route is set
+  sysctl:
+    name: net.ipv6.conf.all.accept_source_route
+    value: '{{ sysctl_net_ipv6_conf_all_accept_source_route_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - sysctl_net_ipv6_conf_all_accept_source_route | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv6_conf_all_accept_source_route
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80179-5
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20
+  - DISA-STIG-RHEL-07-040830
+
+- name: Ensure sysctl net.ipv6.conf.all.accept_redirects is set
+  sysctl:
+    name: net.ipv6.conf.all.accept_redirects
+    value: '{{ sysctl_net_ipv6_conf_all_accept_redirects_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_net_ipv6_conf_all_accept_redirects | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv6_conf_all_accept_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80182-9
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv6.conf.default.accept_source_route is set
+  sysctl:
+    name: net.ipv6.conf.default.accept_source_route
+    value: '{{ sysctl_net_ipv6_conf_default_accept_source_route_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sysctl_net_ipv6_conf_default_accept_source_route | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv6_conf_default_accept_source_route
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80355-1
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv6.conf.all.accept_ra is set
+  sysctl:
+    name: net.ipv6.conf.all.accept_ra
+    value: '{{ sysctl_net_ipv6_conf_all_accept_ra_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_net_ipv6_conf_all_accept_ra | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv6_conf_all_accept_ra
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80180-3
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv6.conf.default.accept_redirects is set
+  sysctl:
+    name: net.ipv6.conf.default.accept_redirects
+    value: '{{ sysctl_net_ipv6_conf_default_accept_redirects_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - disable_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_disruption | bool
+  - sysctl_net_ipv6_conf_default_accept_redirects | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv6_conf_default_accept_redirects
+  - medium_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80183-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20
+
+- name: Ensure sysctl net.ipv6.conf.default.accept_ra is set
+  sysctl:
+    name: net.ipv6.conf.default.accept_ra
+    value: '{{ sysctl_net_ipv6_conf_default_accept_ra_value }}'
+    state: present
+    reload: true
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - unknown_severity | bool
+  - disable_strategy | bool
+  - reboot_required | bool
+  - sysctl_net_ipv6_conf_default_accept_ra | bool
+  - medium_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sysctl_net_ipv6_conf_default_accept_ra
+  - unknown_severity
+  - disable_strategy
+  - low_complexity
+  - medium_disruption
+  - reboot_required
+  - CCE-80181-1
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.20

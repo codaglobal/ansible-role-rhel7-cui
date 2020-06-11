@@ -1,0 +1,497 @@
+---
+- name: Disable Kerberos Authentication
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*KerberosAuthentication\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: KerberosAuthentication no
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - sshd_disable_kerb_auth | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_disable_kerb_auth
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80221-5
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.12
+  - DISA-STIG-RHEL-07-040440
+
+- name: Enable SSH Warning Banner | AC.2.005
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*Banner\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: Banner /etc/issue
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sshd_enable_warning_banner | bool
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_enable_warning_banner
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27314-4
+  - NIST-800-53-AC-8(a)
+  - NIST-800-53-AC-8(c)
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.9
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-040170
+
+- name: Disable GSSAPI Authentication
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*GSSAPIAuthentication\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: GSSAPIAuthentication no
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - sshd_disable_gssapi_auth | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_disable_gssapi_auth
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80220-7
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-17(a)
+  - NIST-800-171-3.1.12
+  - DISA-STIG-RHEL-07-040430
+
+- name: Set SSH Client Alive Max Count
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*ClientAliveCountMax\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: ClientAliveCountMax {{ var_sshd_set_keepalive }}
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - sshd_set_keepalive | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_set_keepalive
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27082-7
+  - NIST-800-53-AC-2(5)
+  - NIST-800-53-AC-12
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-SC-10
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.11
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-040340
+
+- name: Disable SSH Support for Rhosts RSA Authentication
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*RhostsRSAAuthentication\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: RhostsRSAAuthentication no
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sshd_disable_rhosts_rsa | bool
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_disable_rhosts_rsa
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80373-4
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.12
+  - DISA-STIG-RHEL-07-040330
+
+- name: Disable Host-Based Authentication
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*HostbasedAuthentication\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: HostbasedAuthentication no
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - disable_host_auth | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - disable_host_auth
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27413-4
+  - NIST-800-53-AC-3
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.12
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-010470
+
+- name: Disable SSH Access via Empty Passwords
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*PermitEmptyPasswords\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: PermitEmptyPasswords no
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - sshd_disable_empty_passwords | bool
+  - high_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_disable_empty_passwords
+  - high_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27471-2
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.1
+  - NIST-800-171-3.1.5
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-010300
+
+- name: Disable SSH Root Login
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*PermitRootLogin\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: PermitRootLogin no
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - sshd_disable_root_login | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_disable_root_login
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27445-6
+  - NIST-800-53-AC-6(2)
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-IA-2
+  - NIST-800-53-IA-2(5)
+  - NIST-800-53-CM-7(a)
+  - NIST-800-53-CM-7(b)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-
+  - NIST-800-171-3.1.1
+  - NIST-800-171-3.1.5
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-040370
+
+- name: Set SSH Idle Timeout Interval
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*ClientAliveInterval\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: ClientAliveInterval {{ sshd_idle_timeout_value }}
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - sshd_set_idle_timeout | bool
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_set_idle_timeout
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27433-2
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-AC-2(5)
+  - NIST-800-53-AC-12
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-SC-10
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.11
+  - PCI-DSS-Req-8.1.8
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-040320
+
+- name: Enable Use of Strict Mode Checking
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*StrictModes\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: StrictModes yes
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - sshd_enable_strictmodes | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_enable_strictmodes
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-80222-3
+  - NIST-800-53-AC-6
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-CM-6(a)
+  - NIST-800-171-3.1.12
+  - DISA-STIG-RHEL-07-040450
+
+- name: Use Only FIPS 140-2 Validated Ciphers
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*Ciphers\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - medium_severity | bool
+  - sshd_use_approved_ciphers | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_use_approved_ciphers
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27295-5
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-AC-17(2)
+  - NIST-800-53-SC-13
+  - NIST-800-53-MA-4(6)
+  - NIST-800-53-IA-5(1)(c)
+  - NIST-800-53-SC-12(2)
+  - NIST-800-53-SC-12(3)
+  - NIST-800-171-3.1.13
+  - NIST-800-171-3.13.11
+  - NIST-800-171-3.13.8
+  - CJIS-5.5.6
+  - DISA-STIG-RHEL-07-040110
+
+- name: Use Only FIPS 140-2 Validated MACs
+  block:
+  - name: Deduplicate values from /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: false
+      regexp: (?i)^\s*MACs\s+
+      state: absent
+  - name: Insert correct line to /etc/ssh/sshd_config
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      create: true
+      line: MACs {{ sshd_approved_macs }}
+      state: present
+      insertbefore: ^[#\s]*Match
+      validate: /usr/sbin/sshd -t -f %s
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - no_reboot_needed | bool
+  - restrict_strategy | bool
+  - sshd_use_approved_macs | bool
+  - medium_severity | bool
+  - low_disruption | bool
+  - low_complexity | bool
+  tags:
+  - sshd_use_approved_macs
+  - medium_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - no_reboot_needed
+  - CCE-27455-5
+  - NIST-800-53-CM-6(a)
+  - NIST-800-53-AC-17(a)
+  - NIST-800-53-AC-17(2)
+  - NIST-800-53-SC-13
+  - NIST-800-53-MA-4(6)
+  - NIST-800-53-SC-12(2)
+  - NIST-800-53-SC-12(3)
+  - NIST-800-171-3.1.13
+  - NIST-800-171-3.13.11
+  - NIST-800-171-3.13.8
+  - DISA-STIG-RHEL-07-040400

@@ -1,0 +1,240 @@
+---
+- name: check vsyscall argument exists
+  command: grep 'GRUB_CMDLINE_LINUX.*vsyscall=' /etc/default/grub
+  failed_when: false
+  register: argcheck
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - grub2_vsyscall_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82159-5
+
+- name: replace existing vsyscall argument
+  replace:
+    path: /etc/default/grub
+    regexp: vsyscall=.
+    replace: vsyscall=none
+  when:
+  - argcheck is succeeded
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - grub2_vsyscall_argument | bool
+  - low_disruption | bool
+  tags:
+  - grub2_vsyscall_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82159-5
+
+- name: add vsyscall argument
+  replace:
+    path: /etc/default/grub
+    regexp: (GRUB_CMDLINE_LINUX=.*)"
+    replace: \1 vsyscall=none"
+  when:
+  - argcheck is failed
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - grub2_vsyscall_argument | bool
+  - low_disruption | bool
+  tags:
+  - grub2_vsyscall_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82159-5
+
+- name: update bootloader menu for vsyscall
+  command: /sbin/grubby --update-kernel=ALL --args="vsyscall=none"
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - grub2_vsyscall_argument | bool
+  - low_disruption | bool
+  tags:
+  - grub2_vsyscall_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82159-5
+
+- name: check slub_debug argument exists
+  command: grep 'GRUB_CMDLINE_LINUX.*slub_debug=' /etc/default/grub
+  failed_when: false
+  register: argcheck
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - grub2_slub_debug_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82157-9
+
+- name: replace existing slub_debug argument
+  replace:
+    path: /etc/default/grub
+    regexp: slub_debug=.
+    replace: slub_debug=P
+  when:
+  - argcheck is succeeded
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_slub_debug_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_slub_debug_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82157-9
+
+- name: add slub_debug argument
+  replace:
+    path: /etc/default/grub
+    regexp: (GRUB_CMDLINE_LINUX=.*)"
+    replace: \1 slub_debug=P"
+  when:
+  - argcheck is failed
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_slub_debug_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_slub_debug_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82157-9
+
+- name: update bootloader menu for slub_debug
+  command: /sbin/grubby --update-kernel=ALL --args="slub_debug=P"
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - grub2_slub_debug_argument | bool
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - low_disruption | bool
+  tags:
+  - grub2_slub_debug_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82157-9
+
+- name: check page_poison argument exists
+  command: grep 'GRUB_CMDLINE_LINUX.*page_poison=' /etc/default/grub
+  failed_when: false
+  register: argcheck
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  tags:
+  - grub2_page_poison_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82158-7
+
+- name: replace existing page_poison argument
+  replace:
+    path: /etc/default/grub
+    regexp: page_poison=.
+    replace: page_poison=1
+  when:
+  - argcheck is succeeded
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - grub2_page_poison_argument | bool
+  - low_disruption | bool
+  tags:
+  - grub2_page_poison_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82158-7
+
+- name: add page_poison argument
+  replace:
+    path: /etc/default/grub
+    regexp: (GRUB_CMDLINE_LINUX=.*)"
+    replace: \1 page_poison=1"
+  when:
+  - argcheck is failed
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - grub2_page_poison_argument | bool
+  - low_disruption | bool
+  tags:
+  - grub2_page_poison_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82158-7
+
+- name: update bootloader menu for page_poison
+  command: /sbin/grubby --update-kernel=ALL --args="page_poison=1"
+  when:
+  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
+  - restrict_strategy | bool
+  - reboot_required | bool
+  - medium_severity | bool
+  - medium_complexity | bool
+  - grub2_page_poison_argument | bool
+  - low_disruption | bool
+  tags:
+  - grub2_page_poison_argument
+  - medium_severity
+  - restrict_strategy
+  - medium_complexity
+  - low_disruption
+  - reboot_required
+  - CCE-82158-7
