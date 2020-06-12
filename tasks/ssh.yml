@@ -17,7 +17,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - sshd_disable_kerb_auth | bool
@@ -29,7 +28,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-80221-5
   - NIST-800-53-AC-17(a)
   - NIST-800-53-CM-7(a)
@@ -57,7 +55,6 @@
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - sshd_enable_warning_banner | bool
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - low_disruption | bool
@@ -68,7 +65,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27314-4
   - NIST-800-53-AC-8(a)
   - NIST-800-53-AC-8(c)
@@ -96,7 +92,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - sshd_disable_gssapi_auth | bool
@@ -108,7 +103,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-80220-7
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -135,7 +129,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - sshd_set_keepalive | bool
@@ -147,7 +140,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27082-7
   - NIST-800-53-AC-2(5)
   - NIST-800-53-AC-12
@@ -177,7 +169,6 @@
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - sshd_disable_rhosts_rsa | bool
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - low_disruption | bool
@@ -188,7 +179,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-80373-4
   - NIST-800-53-AC-17(a)
   - NIST-800-53-CM-7(a)
@@ -215,7 +205,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - disable_host_auth | bool
@@ -227,7 +216,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27413-4
   - NIST-800-53-AC-3
   - NIST-800-53-AC-17(a)
@@ -256,7 +244,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - sshd_disable_empty_passwords | bool
   - high_severity | bool
@@ -268,7 +255,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27471-2
   - NIST-800-53-AC-17(a)
   - NIST-800-53-CM-7(a)
@@ -297,7 +283,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - sshd_disable_root_login | bool
@@ -309,7 +294,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27445-6
   - NIST-800-53-AC-6(2)
   - NIST-800-53-AC-17(a)
@@ -343,7 +327,6 @@
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - sshd_set_idle_timeout | bool
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - low_disruption | bool
@@ -354,7 +337,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27433-2
   - NIST-800-53-CM-6(a)
   - NIST-800-53-AC-17(a)
@@ -386,7 +368,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - sshd_enable_strictmodes | bool
   - restrict_strategy | bool
   - medium_severity | bool
@@ -398,7 +379,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-80222-3
   - NIST-800-53-AC-6
   - NIST-800-53-AC-17(a)
@@ -424,7 +404,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - sshd_use_approved_ciphers | bool
@@ -436,7 +415,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27295-5
   - NIST-800-53-CM-6(a)
   - NIST-800-53-AC-17(a)
@@ -470,7 +448,6 @@
       validate: /usr/sbin/sshd -t -f %s
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - sshd_use_approved_macs | bool
   - medium_severity | bool
@@ -482,7 +459,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27455-5
   - NIST-800-53-CM-6(a)
   - NIST-800-53-AC-17(a)

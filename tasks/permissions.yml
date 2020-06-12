@@ -1,4 +1,67 @@
 ---
+- name: Set user umask in /etc/bashrc
+  replace:
+    path: /etc/bashrc
+    regexp: umask.*
+    replace: umask {{ var_accounts_user_umask }}
+  tags:
+  - accounts_umask_etc_bashrc
+  - unknown_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - CCE-80202-5
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-CM-6(a)
+  when:
+  - unknown_severity | bool
+  - restrict_strategy | bool
+  - accounts_umask_etc_bashrc | bool
+  - low_disruption | bool
+  - low_complexity | bool
+
+- name: Set user umask in /etc/csh.cshrc
+  replace:
+    path: /etc/csh.cshrc
+    regexp: umask.*
+    replace: umask {{ var_accounts_user_umask }}
+  tags:
+  - accounts_umask_etc_csh_cshrc
+  - unknown_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - CCE-80203-3
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-CM-6(a)
+  when:
+  - unknown_severity | bool
+  - accounts_umask_etc_csh_cshrc | bool
+  - restrict_strategy | bool
+  - low_disruption | bool
+  - low_complexity | bool
+
+- name: Set user umask in /etc/profile
+  replace:
+    path: /etc/profile
+    regexp: umask.*
+    replace: umask {{ var_accounts_user_umask }}
+  tags:
+  - accounts_umask_etc_profile
+  - unknown_severity
+  - restrict_strategy
+  - low_complexity
+  - low_disruption
+  - CCE-80204-1
+  - NIST-800-53-AC-6(1)
+  - NIST-800-53-CM-6(a)
+  when:
+  - unknown_severity | bool
+  - restrict_strategy | bool
+  - accounts_umask_etc_profile | bool
+  - low_disruption | bool
+  - low_complexity | bool
+
 - name: get back mount information associated to mountpoint
   command: findmnt --fstab '/home'
   register: device_name
@@ -12,7 +75,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81153-9
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -34,7 +96,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_home_nosuid | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - high_disruption | bool
@@ -44,7 +105,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81153-9
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -67,7 +127,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_home_nosuid | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - high_disruption | bool
@@ -77,7 +136,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81153-9
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -100,7 +158,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81052-3
 
 - name: create mount_info dictionary variable
@@ -114,7 +171,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - mount_option_var_tmp_nodev | bool
   - configure_strategy | bool
   - low_complexity | bool
@@ -125,7 +181,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81052-3
 
 - name: Ensure permission nodev are set on /var/tmp
@@ -140,7 +195,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - mount_option_var_tmp_nodev | bool
   - configure_strategy | bool
   - low_complexity | bool
@@ -151,7 +205,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81052-3
 
 - name: get back mount information associated to mountpoint
@@ -167,7 +220,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80152-2
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -186,7 +238,6 @@
   - device_name.stdout is defined and device_name.stdout_lines is defined
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - medium_severity | bool
   - mount_option_dev_shm_nodev | bool
@@ -198,7 +249,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80152-2
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -218,7 +268,6 @@
   - device_name.stdout is defined
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - medium_severity | bool
   - mount_option_dev_shm_nodev | bool
@@ -230,7 +279,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80152-2
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -252,7 +300,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80150-6
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -273,7 +320,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_tmp_noexec | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - high_disruption | bool
@@ -283,7 +329,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80150-6
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -305,7 +350,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_tmp_noexec | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - high_disruption | bool
@@ -315,7 +359,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80150-6
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -337,7 +380,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80151-4
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -358,7 +400,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_tmp_nosuid | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - high_disruption | bool
   - low_complexity | bool
@@ -368,7 +409,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80151-4
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -390,7 +430,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_tmp_nosuid | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - high_disruption | bool
   - low_complexity | bool
@@ -400,7 +439,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80151-4
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -422,7 +460,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-82150-4
 
 - name: create mount_info dictionary variable
@@ -436,7 +473,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - mount_option_var_tmp_noexec | bool
   - low_complexity | bool
@@ -447,7 +483,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-82150-4
 
 - name: Ensure permission noexec are set on /var/tmp
@@ -462,7 +497,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - mount_option_var_tmp_noexec | bool
   - low_complexity | bool
@@ -473,7 +507,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-82150-4
 
 - name: get back mount information associated to mountpoint
@@ -489,7 +522,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-82153-8
 
 - name: create mount_info dictionary variable
@@ -503,7 +535,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - mount_option_var_tmp_nosuid | bool
@@ -514,7 +545,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-82153-8
 
 - name: Ensure permission nosuid are set on /var/tmp
@@ -529,7 +559,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - mount_option_var_tmp_nosuid | bool
@@ -540,7 +569,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-82153-8
 
 - name: get back mount information associated to mountpoint
@@ -556,7 +584,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80154-8
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -576,7 +603,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - mount_option_dev_shm_nosuid | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - medium_severity | bool
   - low_complexity | bool
@@ -587,7 +613,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80154-8
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -608,7 +633,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - mount_option_dev_shm_nosuid | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - medium_severity | bool
   - low_complexity | bool
@@ -619,7 +643,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80154-8
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -641,7 +664,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80153-0
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -661,7 +683,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - mount_option_dev_shm_noexec | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - medium_severity | bool
   - low_complexity | bool
@@ -672,7 +693,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80153-0
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -693,7 +713,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - mount_option_dev_shm_noexec | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - medium_severity | bool
   - low_complexity | bool
@@ -704,7 +723,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80153-0
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -726,7 +744,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81047-3
 
 - name: create mount_info dictionary variable
@@ -740,7 +757,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - mount_option_home_nodev | bool
   - low_complexity | bool
@@ -751,7 +767,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81047-3
 
 - name: Ensure permission nodev are set on /home
@@ -766,7 +781,6 @@
   - (device_name.stdout | length > 0)
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - mount_option_home_nodev | bool
   - low_complexity | bool
@@ -777,7 +791,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-81047-3
 
 - name: get back mount information associated to mountpoint
@@ -793,7 +806,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80149-8
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -814,7 +826,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_tmp_nodev | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - high_disruption | bool
@@ -824,7 +835,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80149-8
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)
@@ -846,7 +856,6 @@
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - unknown_severity | bool
   - mount_option_tmp_nodev | bool
-  - no_reboot_needed | bool
   - configure_strategy | bool
   - low_complexity | bool
   - high_disruption | bool
@@ -856,7 +865,6 @@
   - configure_strategy
   - low_complexity
   - high_disruption
-  - no_reboot_needed
   - CCE-80149-8
   - NIST-800-53-CM-7(a)
   - NIST-800-53-CM-7(b)

@@ -36,7 +36,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -66,7 +65,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -125,7 +123,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -156,7 +153,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -185,7 +181,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -244,7 +239,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -277,7 +271,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -361,7 +354,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -394,7 +386,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode
@@ -423,7 +414,6 @@
   - restrict_strategy | bool
   - reboot_required | bool
   - high_severity | bool
-  - grub2_enable_fips_mode | bool
   - medium_disruption | bool
   tags:
   - grub2_enable_fips_mode

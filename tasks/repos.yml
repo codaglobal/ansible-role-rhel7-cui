@@ -31,7 +31,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26989-4
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -56,7 +55,6 @@
     create: false
   when:
   - (ansible_distribution == "RedHat" or ansible_distribution == "CentOS" or yum_config_file.stat.exists)
-  - no_reboot_needed | bool
   - high_severity | bool
   - unknown_strategy | bool
   - ensure_gpgcheck_globally_activated | bool
@@ -68,7 +66,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26989-4
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -93,7 +90,6 @@
     create: false
   when:
   - ansible_distribution == "Fedora"
-  - no_reboot_needed | bool
   - high_severity | bool
   - unknown_strategy | bool
   - ensure_gpgcheck_globally_activated | bool
@@ -105,7 +101,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26989-4
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -130,7 +125,6 @@
     create: true
   when:
   - (ansible_distribution == "RedHat" or ansible_distribution == "CentOS" or yum_config_file.stat.exists)
-  - no_reboot_needed | bool
   - high_severity | bool
   - unknown_strategy | bool
   - medium_disruption | bool
@@ -142,7 +136,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-80347-8
   - NIST-800-53-CM-11(a)
   - NIST-800-53-CM-11(b)
@@ -162,7 +155,6 @@
     create: true
   when:
   - ansible_distribution == "Fedora"
-  - no_reboot_needed | bool
   - high_severity | bool
   - unknown_strategy | bool
   - medium_disruption | bool
@@ -174,7 +166,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-80347-8
   - NIST-800-53-CM-11(a)
   - NIST-800-53-CM-11(b)
@@ -196,7 +187,6 @@
   - restrict_strategy
   - medium_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26957-1
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -220,7 +210,6 @@
   - restrict_strategy
   - medium_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26957-1
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -240,7 +229,6 @@
   - restrict_strategy
   - medium_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26957-1
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -260,7 +248,6 @@
   - restrict_strategy
   - medium_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26957-1
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -280,7 +267,6 @@
   - (gpg_installed_fingerprints | difference(gpg_valid_fingerprints)) | length == 0
   - gpg_installed_fingerprints | length > 0
   - ansible_distribution == "RedHat"
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - high_severity | bool
   - ensure_redhat_gpgkey_installed | bool
@@ -292,7 +278,6 @@
   - restrict_strategy
   - medium_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26957-1
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -316,7 +301,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26876-3
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -332,7 +316,6 @@
   - CJIS-5.10.4.1
   when:
   - ensure_gpgcheck_never_disabled | bool
-  - no_reboot_needed | bool
   - high_severity | bool
   - unknown_strategy | bool
   - medium_disruption | bool
@@ -351,7 +334,6 @@
   - unknown_strategy
   - low_complexity
   - medium_disruption
-  - no_reboot_needed
   - CCE-26876-3
   - NIST-800-53-CM-5(3)
   - NIST-800-53-SI-7
@@ -367,7 +349,6 @@
   - CJIS-5.10.4.1
   when:
   - ensure_gpgcheck_never_disabled | bool
-  - no_reboot_needed | bool
   - high_severity | bool
   - unknown_strategy | bool
   - medium_disruption | bool

@@ -13,7 +13,6 @@
     - '"audit" in ansible_facts.packages'
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - no_reboot_needed | bool
   - high_severity | bool
   - enable_strategy | bool
   - service_auditd_enabled | bool
@@ -25,7 +24,6 @@
   - enable_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27407-6
   - NIST-800-53-AC-2(g)
   - NIST-800-53-AU-3
@@ -244,7 +242,6 @@
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - auditd_data_retention_flush | bool
-  - no_reboot_needed | bool
   - restrict_strategy | bool
   - medium_severity | bool
   - low_disruption | bool
@@ -255,7 +252,6 @@
   - restrict_strategy
   - low_complexity
   - low_disruption
-  - no_reboot_needed
   - CCE-27331-8
   - NIST-800-53-AU-11
   - NIST-800-53-CM-6(a)
