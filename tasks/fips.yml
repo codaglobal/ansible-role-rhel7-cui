@@ -111,6 +111,7 @@
   - CJIS-5.10.1.2
   - DISA-STIG-RHEL-07-021350
 
+# installs dracut-fips as a dependency
 - name: Ensure dracut-fips-aesni is installed
   package:
     name: dracut-fips-aesni
@@ -118,36 +119,6 @@
   when:
   - aesni_supported.rc == 0
   - ansible_distribution == 'RedHat'
-  - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
-  - high_complexity | bool
-  - restrict_strategy | bool
-  - reboot_required | bool
-  - high_severity | bool
-  - medium_disruption | bool
-  tags:
-  - grub2_enable_fips_mode
-  - high_severity
-  - restrict_strategy
-  - high_complexity
-  - medium_disruption
-  - reboot_required
-  - CCE-80359-3
-  - NIST-800-53-SC-12(2)
-  - NIST-800-53-SC-12(3)
-  - NIST-800-53-IA-7
-  - NIST-800-53-SC-13
-  - NIST-800-53-CM-6(a)
-  - NIST-800-53-SC-12
-  - NIST-800-171-3.13.8
-  - NIST-800-171-3.13.11
-  - CJIS-5.10.1.2
-  - DISA-STIG-RHEL-07-021350
-
-- name: Ensure dracut-fips is installed
-  package:
-    name: dracut-fips
-    state: present
-  when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - high_complexity | bool
   - restrict_strategy | bool
