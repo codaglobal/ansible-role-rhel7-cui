@@ -1,4 +1,8 @@
 ---
+rhsm_repositories: [
+  'rhel-7-server-extras-rpms',
+  'rhel-7-server-optional-rpms',
+]
 subscription_activation_key: 'rhel'
 subscription_organization_id: '11756240'
 

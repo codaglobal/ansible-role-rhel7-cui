@@ -8,8 +8,11 @@
   when:
   - ansible_distribution == "RedHat"
 
-- name: Enable Extras and Optional RPMs from RHEL
-  command: subscription-manager repos --enable rhel-7-server-extras-rpms --enable rhel-7-server-optional-rpms
+- name: Enable RHSM repositories
+  rhsm_repository:
+    name: '{{ item }}'
+    state: enabled
+  loop: '{{ rhsm_repositories }}'
   when:
   - ansible_distribution == "RedHat"
 
