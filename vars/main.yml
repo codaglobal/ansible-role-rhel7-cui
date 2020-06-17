@@ -10,7 +10,9 @@ install_package_list: [
   'ansible',
   'clamav',
   'container-selinux',
+  'curl',
   'sssd',
+  'vim',
 ]
 remove_package_list: [
   'rsh',
