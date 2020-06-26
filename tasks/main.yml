@@ -1,16 +1,13 @@
 ---
-- include: repos.yml
-
+- include: audit.yml
+- include: disable.yml
 - include: fips.yml
   when:
   - grub2_enable_fips_mode | bool
-
-- include: audit.yml
-- include: disable.yml
 - include: install.yml
-- include: locale.yml
 - include: misc.yml
 - include: pam.yml
 - include: permissions.yml
+- include: repos.yml
 - include: ssh.yml
 - include: tcp.yml

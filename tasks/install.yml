@@ -1,10 +1,4 @@
 ---
-- name: Install additional packages
-  package:
-    name: '{{ item }}'
-    state: present
-  loop: '{{ install_package_list }}'
-
 - name: Ensure screen is installed (RHEL 8)
   package:
     name: screen

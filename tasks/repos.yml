@@ -1,26 +1,4 @@
 ---
-# subscription-manager register --org=<org-id> --activationkey=<key-name>
-- name: Subscribe to RHSM
-  redhat_subscription:
-    state: present
-    activationkey: '{{ subscription_activation_key }}'
-    org_id: '{{ subscription_organization_id }}'
-  when:
-  - ansible_distribution == "RedHat"
-
-- name: Enable RHSM repositories
-  rhsm_repository:
-    name: '{{ item }}'
-    state: enabled
-  loop: '{{ rhsm_repositories }}'
-  when:
-  - ansible_distribution == "RedHat"
-
-- name: Enable EPEL
-  yum:
-    name: '{{ epel_repo_link }}'
-    state: present
-
 - name: Check existence of yum on Fedora
   stat:
     path: /etc/yum.conf
