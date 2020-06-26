@@ -1,23 +1,4 @@
 ---
-rhsm_repositories: [
-  'rhel-7-server-extras-rpms',
-  'rhel-7-server-optional-rpms',
-]
-subscription_activation_key: 'rhel'
-subscription_organization_id: '11756240'
-
-epel_repo_link: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-locale: 'en_US.UTF-8'
-timezone: 'America/New_York'
-
-install_package_list: [
-  'ansible',
-  'clamav',
-  'container-selinux',
-  'curl',
-  'sssd',
-  'vim',
-]
 remove_package_list: [
   'rsh',
   'telnet',
