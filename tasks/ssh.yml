@@ -36,6 +36,12 @@
   - NIST-800-171-3.1.12
   - DISA-STIG-RHEL-07-040440
 
+- name: Create SSH Warning Banner File | AC.2.005
+  copy:
+    src: issue
+    dest: /etc/issue
+    mode: '0644'
+
 - name: Enable SSH Warning Banner | AC.2.005
   block:
   - name: Deduplicate values from /etc/ssh/sshd_config

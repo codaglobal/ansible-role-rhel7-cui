@@ -1,5 +1,5 @@
 ---
-# do things that require a reboot to take effect?
+# do things that require a reboot to apply?
 reboot_required: true
 
 # toggle by strategy
