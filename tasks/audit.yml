@@ -1,10 +1,10 @@
 ---
-- name: Enable service auditd | AC.3.018
+- name: Enable service auditd
   block:
   - name: Gather the package facts
     package_facts:
       manager: auto
-  - name: Enable service auditd
+  - name: Enable service auditd | AC.3.018
     service:
       name: auditd
       enabled: 'yes'
@@ -40,7 +40,7 @@
   - CJIS-5.4.1.1
   - DISA-STIG-RHEL-07-030000
 
-- name: check audit argument exists
+- name: Check audit argument exists
   command: grep 'GRUB_CMDLINE_LINUX.*audit=' /etc/default/grub
   failed_when: false
   register: argcheck
@@ -63,7 +63,7 @@
   - PCI-DSS-Req-10.3
   - CJIS-5.4.1.1
 
-- name: replace existing audit argument
+- name: Replace existing audit argument
   replace:
     path: /etc/default/grub
     regexp: audit=.
@@ -94,7 +94,7 @@
   - PCI-DSS-Req-10.3
   - CJIS-5.4.1.1
 
-- name: add audit argument
+- name: Add audit argument
   replace:
     path: /etc/default/grub
     regexp: (GRUB_CMDLINE_LINUX=.*)"
@@ -125,7 +125,7 @@
   - PCI-DSS-Req-10.3
   - CJIS-5.4.1.1
 
-- name: update bootloader menu for audit
+- name: Update bootloader menu for audit
   command: /sbin/grubby --update-kernel=ALL --args="audit=1"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -152,7 +152,7 @@
   - PCI-DSS-Req-10.3
   - CJIS-5.4.1.1
 
-- name: check audit_backlog_limit argument exists
+- name: Check audit_backlog_limit argument exists
   command: grep 'GRUB_CMDLINE_LINUX.*audit_backlog_limit=' /etc/default/grub
   failed_when: false
   register: argcheck
@@ -167,7 +167,7 @@
   - reboot_required
   - CCE-82156-1
 
-- name: replace existing audit_backlog_limit argument
+- name: Replace existing audit_backlog_limit argument
   replace:
     path: /etc/default/grub
     regexp: audit_backlog_limit=.
@@ -190,7 +190,7 @@
   - reboot_required
   - CCE-82156-1
 
-- name: add audit_backlog_limit argument
+- name: Add audit_backlog_limit argument
   replace:
     path: /etc/default/grub
     regexp: (GRUB_CMDLINE_LINUX=.*)"
@@ -213,7 +213,7 @@
   - reboot_required
   - CCE-82156-1
 
-- name: update bootloader menu for audit_backlog_limit
+- name: Update bootloader menu for audit_backlog_limit
   command: /sbin/grubby --update-kernel=ALL --args="audit_backlog_limit=8192"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"

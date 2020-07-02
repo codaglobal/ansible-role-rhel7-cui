@@ -1,0 +1,11 @@
+[rhel]
+ec2-54-242-45-24.compute-1.amazonaws.com ansible_user=ec2-user
+
+[windows]
+ec2-3-89-57-154.compute-1.amazonaws.com ansible_user=Administrator
+
+[windows:vars]
+ansible_become_method=runas
+ansible_become_user=Administrator
+ansible_connection=winrm
+ansible_winrm_transport=basic

@@ -1,13 +1,13 @@
 ---
 - name: Disable Kerberos Authentication
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Disable Kerberos Authentication | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*KerberosAuthentication\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Disable Kerberos Authentication | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -38,7 +38,7 @@
 
 - name: Create SSH Warning Banner File | AC.2.005
   copy:
-    src: issue
+    src: ssh_banner
     dest: /etc/issue
     mode: '0644'
 
@@ -82,13 +82,13 @@
 
 - name: Disable GSSAPI Authentication
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Disable GSSAPI Authentication | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*GSSAPIAuthentication\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Disable GSSAPI Authentication | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -119,13 +119,13 @@
 
 - name: Set SSH Client Alive Max Count
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Set SSH Client Alive Max Count | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*ClientAliveCountMax\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Set SSH Client Alive Max Count | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -158,13 +158,13 @@
 
 - name: Disable SSH Support for Rhosts RSA Authentication
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Disable SSH Support for Rhosts RSA Authentication | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*RhostsRSAAuthentication\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Disable SSH Support for Rhosts RSA Authentication | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -195,13 +195,13 @@
 
 - name: Disable Host-Based Authentication
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Disable Host-Based Authentication | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*HostbasedAuthentication\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Disable Host-Based Authentication | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -234,13 +234,13 @@
 
 - name: Disable SSH Access via Empty Passwords
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Disable SSH Access via Empty Passwords | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*PermitEmptyPasswords\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Disable SSH Access via Empty Passwords | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -273,13 +273,13 @@
 
 - name: Disable SSH Root Login
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Disable SSH Root Login | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*PermitRootLogin\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Disable SSH Root Login | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -316,13 +316,13 @@
 
 - name: Set SSH Idle Timeout Interval
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Set SSH Idle Timeout Interval | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*ClientAliveInterval\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Set SSH Idle Timeout Interval | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -358,13 +358,13 @@
 
 - name: Enable Use of Strict Mode Checking
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Enable Use of Strict Mode Checking | Deduplicate values from /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*StrictModes\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Enable Use of Strict Mode Checking | Insert correct line to /etc/ssh/sshd_config
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -392,15 +392,15 @@
   - NIST-800-171-3.1.12
   - DISA-STIG-RHEL-07-040450
 
-- name: Use Only FIPS 140-2 Validated Ciphers
+- name: Use Only FIPS 140-2 Validated Ciphers | AC.3.014
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Use Only FIPS 140-2 Validated Ciphers | Deduplicate values from /etc/ssh/sshd_config | AC.3.014
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*Ciphers\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Use Only FIPS 140-2 Validated Ciphers | Insert correct line to /etc/ssh/sshd_config | AC.3.014
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true
@@ -436,15 +436,15 @@
   - CJIS-5.5.6
   - DISA-STIG-RHEL-07-040110
 
-- name: Use Only FIPS 140-2 Validated MACs
+- name: Use Only FIPS 140-2 Validated MACs | AC.3.014
   block:
-  - name: Deduplicate values from /etc/ssh/sshd_config
+  - name: Use Only FIPS 140-2 Validated MACs | Deduplicate values from /etc/ssh/sshd_config | AC.3.014
     lineinfile:
       path: /etc/ssh/sshd_config
       create: false
       regexp: (?i)^\s*MACs\s+
       state: absent
-  - name: Insert correct line to /etc/ssh/sshd_config
+  - name: Use Only FIPS 140-2 Validated MACs | Insert correct line to /etc/ssh/sshd_config | AC.3.014
     lineinfile:
       path: /etc/ssh/sshd_config
       create: true

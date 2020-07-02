@@ -339,10 +339,11 @@
   - reboot_required
   - CCE-81058-0
 
-- name: Ensure abrt is removed
+- name: Remove unwanted packages
   package:
-    name: abrt
+    name: '{{ item }}'
     state: absent
+  loop: '{{ remove_package_list }}'
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
   - disable_strategy | bool
@@ -357,12 +358,6 @@
   - low_complexity
   - low_disruption
   - CCE-81040-8
-
-- name: Remove unwanted packages
-  package:
-    name: '{{ item }}'
-    state: absent
-  loop: '{{ remove_package_list }}'
 
 - name: Disable core dumps with limits
   lineinfile:

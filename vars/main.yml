@@ -1,8 +1,9 @@
 ---
-remove_package_list: [
-  'rsh',
-  'telnet',
-]
+remove_package_list:
+  - abrt
+  - rsh
+  - telnet
+
 
 var_auditd_flush: incremental_async
 var_selinux_state: enforcing
@@ -46,3 +47,8 @@ sysctl_net_ipv6_conf_default_accept_source_route_value: '0'
 sysctl_net_ipv6_conf_all_accept_ra_value: '0'
 sysctl_net_ipv6_conf_default_accept_redirects_value: '0'
 sysctl_net_ipv6_conf_default_accept_ra_value: '0'
+
+umask_paths:
+  - /etc/bashrc
+  - /etc/csh.cshrc
+  - /etc/profile

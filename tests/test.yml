@@ -1,0 +1,4 @@
+- hosts: rhel
+  become: true
+  roles:
+    - ../../ansible-role-rhel7-cui

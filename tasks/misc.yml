@@ -90,7 +90,7 @@
   - NIST-800-171-3.7.2
   - DISA-STIG-RHEL-07-020220
 
-- name: check vsyscall argument exists
+- name: Check vsyscall argument exists
   command: grep 'GRUB_CMDLINE_LINUX.*vsyscall=' /etc/default/grub
   failed_when: false
   register: argcheck
@@ -105,7 +105,7 @@
   - reboot_required
   - CCE-82159-5
 
-- name: replace existing vsyscall argument
+- name: Replace existing vsyscall argument
   replace:
     path: /etc/default/grub
     regexp: vsyscall=.
@@ -128,7 +128,7 @@
   - reboot_required
   - CCE-82159-5
 
-- name: add vsyscall argument
+- name: Add vsyscall argument
   replace:
     path: /etc/default/grub
     regexp: (GRUB_CMDLINE_LINUX=.*)"
@@ -151,7 +151,7 @@
   - reboot_required
   - CCE-82159-5
 
-- name: update bootloader menu for vsyscall
+- name: Update bootloader menu for vsyscall
   command: /sbin/grubby --update-kernel=ALL --args="vsyscall=none"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -170,7 +170,7 @@
   - reboot_required
   - CCE-82159-5
 
-- name: check slub_debug argument exists
+- name: Check slub_debug argument exists
   command: grep 'GRUB_CMDLINE_LINUX.*slub_debug=' /etc/default/grub
   failed_when: false
   register: argcheck
@@ -185,7 +185,7 @@
   - reboot_required
   - CCE-82157-9
 
-- name: replace existing slub_debug argument
+- name: Replace existing slub_debug argument
   replace:
     path: /etc/default/grub
     regexp: slub_debug=.
@@ -208,7 +208,7 @@
   - reboot_required
   - CCE-82157-9
 
-- name: add slub_debug argument
+- name: Add slub_debug argument
   replace:
     path: /etc/default/grub
     regexp: (GRUB_CMDLINE_LINUX=.*)"
@@ -231,7 +231,7 @@
   - reboot_required
   - CCE-82157-9
 
-- name: update bootloader menu for slub_debug
+- name: Update bootloader menu for slub_debug
   command: /sbin/grubby --update-kernel=ALL --args="slub_debug=P"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
@@ -250,7 +250,7 @@
   - reboot_required
   - CCE-82157-9
 
-- name: check page_poison argument exists
+- name: Check page_poison argument exists
   command: grep 'GRUB_CMDLINE_LINUX.*page_poison=' /etc/default/grub
   failed_when: false
   register: argcheck
@@ -265,7 +265,7 @@
   - reboot_required
   - CCE-82158-7
 
-- name: replace existing page_poison argument
+- name: Replace existing page_poison argument
   replace:
     path: /etc/default/grub
     regexp: page_poison=.
@@ -288,7 +288,7 @@
   - reboot_required
   - CCE-82158-7
 
-- name: add page_poison argument
+- name: Add page_poison argument
   replace:
     path: /etc/default/grub
     regexp: (GRUB_CMDLINE_LINUX=.*)"
@@ -311,7 +311,7 @@
   - reboot_required
   - CCE-82158-7
 
-- name: update bootloader menu for page_poison
+- name: Update bootloader menu for page_poison
   command: /sbin/grubby --update-kernel=ALL --args="page_poison=1"
   when:
   - ansible_virtualization_role != "guest" or ansible_virtualization_type != "docker"
