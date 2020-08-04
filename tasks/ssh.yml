@@ -38,7 +38,7 @@
 
 - name: Create SSH Warning Banner File | AC.2.005
   copy:
-    src: ssh_banner
+    content: '{{ ssh_banner }}'
     dest: /etc/issue
     mode: '0644'
 

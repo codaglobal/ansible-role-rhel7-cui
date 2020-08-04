@@ -76,10 +76,10 @@ package_screen_installed: true
 require_singleuser_auth: true
 securetty_root_login_console_only: true
 selinux_policytype: true
-selinux_state: true
-service_auditd_enabled: true
+selinux_state: false
+service_auditd_enabled: false
 service_autofs_disabled: true
-service_firewalld_enabled: true
+service_firewalld_enabled: false
 service_kdump_disabled: true
 service_rpcbind_disabled: true
 sshd_disable_empty_passwords: true

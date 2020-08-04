@@ -9,5 +9,6 @@
 - include_tasks: pam.yml
 - include_tasks: permissions.yml
 - include_tasks: repos.yml
+- include_tasks: selinux.yml
 - include_tasks: ssh.yml
 - include_tasks: tcp.yml
